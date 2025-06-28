@@ -6,7 +6,7 @@
 #    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/28 17:34:01 by anemet            #+#    #+#              #
-#    Updated: 2025/06/28 17:54:41 by anemet           ###   ########.fr        #
+#    Updated: 2025/06/28 18:20:10 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,27 +45,27 @@ all: $(NAME)
 
 # rule to build the final library
 $(NAME): $(OBJS) $(LIBFT)
-		# copy libft.a to create our library, then add our new objects to it
-		cp $(LIBFT) $(NAME)
-		$(AR) $(NAME) $(OBJS)
+	# copy libft.a to create our library, then add our new objects to it
+	cp $(LIBFT) $(NAME)
+	$(AR) $(NAME) $(OBJS)
 
 # rule to build the libft dependency
 $(LIBFT):
-		@make -C $(LIBFT_DIR)
+	@make -C $(LIBFT_DIR)
 
 # rule to compile .c files into .o files
 %.o: %.c $(INCS)
-		$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # clean rule: remove object files
 clean:
-		@make clean -C $(LIBFT_DIR)
-		$(RM) $(NAME)
+	@make clean -C $(LIBFT_DIR)
+	$(RM) $(OBJS)
 
 # full clean rule: clean + library removal
 fclean: clean
-		@make fclean -C $(LIBFT_DIR)
-		$(RM) $(NAME)
+	@make fclean -C $(LIBFT_DIR)
+	$(RM) $(NAME)
 
 # rebuild rule
 re: fclean all
