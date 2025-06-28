@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 07:15:52 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/28 11:21:09 by anemet           ###   ########.fr       */
+/*   Updated: 2025/06/28 12:31:54 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 
 # include "libft/libft.h"
-# include <stdarg.h> // va_list, va_start, va_arg, va_end
+# include <stdarg.h>
 # include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
