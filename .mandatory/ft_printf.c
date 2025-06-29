@@ -41,9 +41,9 @@ int	ft_printf(const char *str, ...)
 }
 
 // handle NULL pointer print before invoking ft_print_ptr()
-static int ft_handle_ptr(va_list args)
+static int	ft_handle_ptr(va_list args)
 {
-	uintptr_t ptr_val;
+	uintptr_t	ptr_val;
 
 	ptr_val = va_arg(args, uintptr_t);
 	if (ptr_val == 0)
