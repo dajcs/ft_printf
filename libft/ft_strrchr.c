@@ -3,42 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 15:50:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/05 15:37:01 by mcombeau         ###   ########.fr       */
+/*   Created: 2025/06/05 12:50:31 by anemet            #+#    #+#             */
+/*   Updated: 2025/06/13 16:22:23 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
-/*
-	DESCRIPTION :
-	The function ft_strrchr finds the last occurrence of character c in
-	string str.
-
-	RETURN VALUE :
-	A pointer to the last occurrence of c in str.
-	NULL if c is not found.
-*/
-
-char	*ft_strrchr(const char *str, int c)
+// return the address of last `c` in string `s`
+// return (char *)(s + i) -- we need to cast return to (char *)
+// because (s + i) is `const char *` and function return type is `char *`
+// if `c` not in `s` then return pointer to '\0'
+// otherwise return the `last` seen address of `c`
+char	*ft_strrchr(const char *s, int c)
 {
-	char			*p;
-	unsigned char	ch;
-	size_t			offset;
+	size_t	i;
+	char	*last;
 
-	ch = c;
-	offset = ft_strlen(str);
-	p = (char *)str + offset;
-	if (ch == '\0')
-		return (p++);
-	while (p >= str)
+	i = 0;
+	last = NULL;
+	while (s[i] != '\0')
 	{
-		if (*p == ch)
-			return (p);
-		p--;
+		if (s[i] == (char)c)
+			last = (char *)(s + i);
+		i++;
 	}
-	p = NULL;
-	return (p);
+	if ((char)c == '\0')
+		return ((char *)(s + i));
+	return (last);
 }

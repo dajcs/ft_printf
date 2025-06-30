@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_ptr_utils.c                               :+:      :+:    :+:   */
+/*   ft_print_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:13:46 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/28 18:28:52 by anemet           ###   ########.fr       */
+/*   Updated: 2025/06/30 16:44:47 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,38 @@ int	ft_ptr_len(uintptr_t num)
 		num = num / 16;
 	}
 	return (len);
+}
+
+int	ft_hex_len(unsigned int n)
+{
+	int	len;
+
+	if (n == 0)
+		return (1);
+	len = 0;
+	while (n != 0)
+	{
+		n /= 16;
+		len++;
+	}
+	return (len);
+}
+
+// reverse string s, terminate with '\0' at len
+void	ft_strrev(char *s, int len)
+{
+	int		start;
+	int		end;
+	char	temp;
+
+	start = 0;
+	end = len - 1;
+	while (start < end)
+	{
+		temp = s[start];
+		s[start] = s[end];
+		s[end] = temp;
+		start++;
+		end--;
+	}
 }

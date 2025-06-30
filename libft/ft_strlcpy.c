@@ -3,41 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 14:16:24 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/03 16:32:30 by mcombeau         ###   ########.fr       */
+/*   Created: 2025/06/04 15:39:16 by anemet            #+#    #+#             */
+/*   Updated: 2025/06/05 10:57:11 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
-/*
-	DESCRIPTION :
-	The function ft_strlcpy copies up to size - 1 characters from the given
-	string src to the given string dst, nul-terminating the result.
+// The strlcpy() function copies up to size - 1 characters from
+// the NUL-terminated string src to dst, NUL-terminating the result.
 
-	Note : space for the terminating \0 character must be included in dstsize.
-
-	RETURN VALUE :
-	The total length of the string that it tried to create : the length of
-	src, with the goal to facilitate truncaction detection.
-*/
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+// 1.while loop copy src to dst, max size-1 bytes, last byte '\0'
+// 2.while loop calculates and returns src length, regardless of truncation
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
-	size_t	srclen;
+	size_t	len;
 
-	srclen = ft_strlen(src);
-	if (dstsize == 0)
-		return (srclen);
 	i = 0;
-	while (i < (dstsize - 1) && src[i] != '\0')
+	len = 0;
+	if (size > 0)
 	{
-		dst[i] = src[i];
-		i++;
+		while (src[i] != '\0' && i < size - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
 	}
-	dst[i] = '\0';
-	return (srclen);
+	while (src[len] != '\0')
+		len++;
+	return (len);
 }

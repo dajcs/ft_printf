@@ -3,56 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/27 16:51:42 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/03 16:21:52 by mcombeau         ###   ########.fr       */
+/*   Created: 2025/06/10 12:13:22 by anemet            #+#    #+#             */
+/*   Updated: 2025/06/10 13:32:16 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-	DESCRIPTION :
-	The function ft_strtrim removes any characters of the given set from
-	the beginning and end of the given string s1, and allocates sufficient
-	memory to store the trimmed copy of the string.
-
-	RETURN VALUE :
-	A pointer to the trimmed copy of the string.
-	NULL if the memory allocation fails.
-*/
-
-static int	is_set(char c, char const *set)
-{
-	int	i;
-
-	i = 0;
-	while (set[i])
-	{
-		if (set[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 char	*ft_strtrim(char const *s1, char const *set)
 {
+	char	*out;
 	size_t	start;
 	size_t	end;
+	size_t	len;
 
-	if (!s1)
-		return (ft_strdup(""));
-	if (!set)
-		return (ft_strdup(s1));
+	if (!s1 || !set)
+		return (NULL);
 	start = 0;
-	end = ft_strlen(s1);
-	while (is_set(s1[start], set))
+	while (s1[start] && ft_strchr(set, (unsigned char)s1[start]))
 		start++;
-	if (start == end)
-		return (ft_strdup(""));
-	while (is_set(s1[end - 1], set))
+	end = ft_strlen(s1);
+	while (end > start && ft_strchr(set, (unsigned char)s1[end - 1]))
 		end--;
-	return (ft_substr(s1, start, end - start));
+	len = end - start;
+	out = (char *)malloc(len + 1);
+	if (!out)
+		return (NULL);
+	ft_memcpy(out, s1 + start, len);
+	out[len] = '\0';
+	return (out);
 }

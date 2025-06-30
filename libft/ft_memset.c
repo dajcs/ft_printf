@@ -3,36 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 13:48:14 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/03 12:05:11 by mcombeau         ###   ########.fr       */
+/*   Created: 2025/06/04 13:42:41 by anemet            #+#    #+#             */
+/*   Updated: 2025/06/05 09:14:36 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
-/*
-	DESCRIPTION :
-	The function ft_memset fills the first len bytes of the memory area
-	pointed	to by b with the byte c. Both b and c are interpreted as 
-	unsigned char.
-
-	RETURN VALUE :
-	A pointer to memory area s.
-*/
-
-void	*ft_memset(void *b, int c, size_t len)
+// ptr = (unsigned char *)s because (void *)s can't be set
+// size_t is an unsigned int considering the hw/sw architecture (eg 32/64 bit)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	unsigned char	*p;
-	unsigned char	ch;
+	unsigned char	*ptr;
+	size_t			i;
 
-	p = (unsigned char *)b;
-	ch = c;
-	while (len--)
+	ptr = (unsigned char *)s;
+	i = 0;
+	while (i < n)
 	{
-		*p = ch;
-		p++;
+		ptr[i] = (unsigned char)c;
+		i++;
 	}
-	return (b);
+	return (s);
 }

@@ -3,47 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 15:14:19 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/02 16:13:28 by mcombeau         ###   ########.fr       */
+/*   Created: 2025/06/04 16:09:14 by anemet            #+#    #+#             */
+/*   Updated: 2025/06/05 11:18:14 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
-/*
-	DESCRIPTION :
-	The function ft_strlcat appends the given string src to the end of 
-	dst. It will append at most dstsize - ft_strlen(dst) - 1 and 
-	nul-terminate the result.
+// The strlcat() function appends the NUL-terminated string src to
+// the end of dst. It will append at most size - strlen(dst) - 1 bytes,
+//                                              NUL-terminating the result.
 
-	Note : space for the terminating \0 character must be included in dstsize.
-
-	RETURN VALUE :
-	The total length of the string that it tried to create : the initial
-	length of dst + the length of src, with the goal to facilitate
-	truncaction detection.
-*/
-
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+// d walks dst (but never past size) to get dst length
+// s walks src to get src length
+// if dst already full (d >= size), bail early, return whisful (size + s)
+// append chars from src to dst until end of src or 1 byte left
+// NUL-terminate and return len(src) + len(dst)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
+	size_t	d;
+	size_t	s;
 	size_t	i;
-	size_t	j;
-	size_t	d_size;
-	size_t	s_size;
 
-	d_size = ft_strlen(dst);
-	s_size = ft_strlen(src);
-	if (dstsize <= d_size)
-		return (dstsize + s_size);
-	i = d_size;
-	j = 0;
-	while ((i + j) < (dstsize - 1) && src[j] != '\0')
+	d = 0;
+	s = 0;
+	i = 0;
+	while (dst[d] != '\0' && d < size)
+		d++;
+	while (src[s] != '\0')
+		s++;
+	if (d >= size)
+		return (size + s);
+	while (src[i] != '\0' && d + i < size - 1)
 	{
-		dst[i + j] = src[j];
-		j++;
+		dst[d + i] = src[i];
+		i++;
 	}
-	dst[i + j] = '\0';
-	return (d_size + s_size);
+	dst[d + i] = '\0';
+	return (d + s);
 }

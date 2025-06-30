@@ -3,31 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 15:28:22 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/02 16:49:19 by mcombeau         ###   ########.fr       */
+/*   Created: 2025/06/05 14:48:28 by anemet            #+#    #+#             */
+/*   Updated: 2025/06/05 15:00:33 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
 
-/*
-	DESCRIPTION :
-	The function ft_calloc allocates memory for an array of count elements
-	of size bytes each and sets the memory to zero.
-
-	RETURN VALUE :
-	The pointer to the allocated memory. NULL if the memory allocation fails.
-*/
-
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*r;
+	size_t			total;
+	size_t			i;
+	unsigned char	*ptr;
 
-	r = malloc(count * size);
-	if (!r)
+	total = 0;
+	i = 0;
+	ptr = NULL;
+	if (nmemb == 0 || size == 0)
+		total = 1;
+	else if (nmemb > SIZE_MAX / size)
 		return (NULL);
-	ft_bzero(r, size * count);
-	return (r);
+	else
+		total = nmemb * size;
+	ptr = (unsigned char *)malloc(total);
+	if (ptr == NULL)
+		return (NULL);
+	while (i < total)
+	{
+		ptr[i] = 0;
+		i++;
+	}
+	return ((void *)ptr);
 }

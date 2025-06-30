@@ -1,44 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_numbers.c                                 :+:      :+:    :+:   */
+/*   ft_utoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 12:26:29 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/28 15:58:18 by anemet           ###   ########.fr       */
+/*   Created: 2025/06/30 16:55:55 by anemet            #+#    #+#             */
+/*   Updated: 2025/06/30 16:57:00 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-// prints a signed decimal number.
-// Returns the number of characters printed.
-int	ft_print_nbr(int n)
-{
-	int		len;
-	char	*num;
-
-	len = 0;
-	num = ft_itoa(n);
-	len = ft_print_str(num);
-	free(num);
-	return (len);
-}
-
-// prints and unsigned decimal number
-// returns the number of characters printed
-int	ft_print_unsigned(unsigned int n)
-{
-	int		len;
-	char	*num;
-
-	len = 0;
-	num = ft_utoa(n);
-	len = ft_print_str(num);
-	free(num);
-	return (len);
-}
 
 // helper to get the length of an unsigned number for ft_utoa
 int	ft_num_len(unsigned int num)

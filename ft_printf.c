@@ -42,10 +42,10 @@ int	ft_printf(const char *format, ...)
 // evaluates the complete format specifier (flags, width, etc.)
 // and calls the dispatcher. The index i is passed by reference
 // to advance the main loop's counter past the format specifier
-int ft_eval_format(va_list args, const char *format, int *i)
+int	ft_eval_format(va_list args, const char *format, int *i)
 {
-	t_flags flags;
-	char type;
+	t_flags	flags;
+	char	type;
 
 	(*i)++;
 	flags = ft_init_flags();

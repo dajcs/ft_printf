@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
+#    By: anemet <anemet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/28 17:34:01 by anemet            #+#    #+#              #
-#    Updated: 2025/06/28 18:20:10 by anemet           ###   ########.fr        #
+#    Updated: 2025/06/30 16:47:04 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,12 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 # ft_printf source files
 SRCS = ft_printf.c \
-       ft_print_primitives.c \
-       ft_print_numbers.c \
-       ft_print_hex.c \
-       ft_print_ptr_utils.c
+       ft_parse_dispatch.c \
+	   ft_print_cs.c \
+	   ft_print_diu.c \
+	   ft_print_px.c \
+	   ft_print_utils.c \
+	   ft_utoa.c
 
 # object files
 OBJS = $(SRCS:.c=.o)

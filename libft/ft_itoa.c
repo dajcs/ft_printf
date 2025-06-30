@@ -3,76 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/27 18:04:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/08 12:12:23 by mcombeau         ###   ########.fr       */
+/*   Created: 2025/06/10 16:35:15 by anemet            #+#    #+#             */
+/*   Updated: 2025/06/11 10:12:51 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-	DESCRIPTION :
-	The function ft_itoa converts the integer n into a string of characters.
-
-	RESULT VALUE :
-	The string of the converted integer.
-*/
-
-static size_t	ft_itoa_len(long num)
+static void	fill_res(char *res, long num, int len)
 {
-	size_t	len;
+	int		i;
+	char	c;
 
-	len = 0;
+	if (num < 0)
+	{
+		num = -num;
+		res[0] = '-';
+	}
 	if (num == 0)
-		return (1);
-	if (num < 0)
+		res[0] = '0';
+	i = 0;
+	while (num)
 	{
-		len++;
-		num = -num;
+		c = '0' + num % 10;
+		res[len - 1 - i] = c;
+		num = num / 10;
+		i++;
 	}
-	while (num >= 1)
-	{
-		len++;
-		num /= 10;
-	}
-	return (len);
-}
-
-static char	*ft_num_to_str(long num, char *str, size_t len)
-{
-	str = ft_calloc(len + 1, sizeof(char));
-	if (str == NULL)
-		return (NULL);
-	if (num < 0)
-	{
-		str[0] = '-';
-		num = -num;
-	}
-	len--;
-	while (len)
-	{
-		str[len] = (num % 10) + '0';
-		num /= 10;
-		len--;
-	}
-	if (str[0] != '-')
-		str[0] = (num % 10) + '0';
-	return (str);
+	res[len] = '\0';
+	return ;
 }
 
 char	*ft_itoa(int n)
 {
+	char	*res;
+	int		len;
 	long	num;
-	size_t	len;
-	char	*str;
 
+	len = 0;
+	if (n <= 0)
+		len = 1;
 	num = n;
-	len = ft_itoa_len(num);
-	str = 0;
-	str = ft_num_to_str(num, str, len);
-	if (!str)
+	while (num)
+	{
+		len++;
+		num = num / 10;
+	}
+	res = malloc(len + 1);
+	if (!res)
 		return (NULL);
-	return (str);
+	fill_res(res, (long)n, len);
+	return (res);
 }
+/*
+#include <stdio.h>
+
+int	main(int argc, char *argv[])
+{
+	char	*res;
+
+	if (argc < 2)
+	{
+		printf("usage: %s <n>\n", argv[0]);
+		return (1);
+	}
+	res = ft_itoa(atoi(argv[1]));
+	printf("res = \"%s\"\n", res);
+	return (0);
+}
+ */

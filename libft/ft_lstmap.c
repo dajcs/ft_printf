@@ -3,51 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 20:34:19 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/04 13:13:40 by mcombeau         ###   ########.fr       */
+/*   Created: 2025/06/13 15:17:42 by anemet            #+#    #+#             */
+/*   Updated: 2025/06/13 15:27:11 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// ft_lstmap
+// creates new list by applying function 'f' to each node in 'lst'
+//                                                        --> return new list
+// if an allocation fails, uses 'del' function to free nodes in new list
+//                                                        --> return NULL
+
 #include "libft.h"
-
-/*
-	DESCRIPTION :
-	The function ft_lstmap creates a new list from a given list  by 
-	applying the function passed as parameter to the original list. If
-	the memory allocation fails for any node in the new list, the new list
-	will be deleted with the function passed as parameter and its memory
-	will be freed.
-
-	RETURN VALUE :
-	The new list containing the new values if a functon was provided.
-	A new copy of the list if no function was provided.
-	NULL if the memory allocation failed.
-*/
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*newlst;
-	t_list	*node;
+	t_list	*new_list;
+	t_list	*new_node;
+	void	*new_content;
 
-	if (!lst)
-		return (NULL);
-	newlst = NULL;
-	node = NULL;
+	new_list = NULL;
 	while (lst)
 	{
-		if (!f)
-			node = ft_lstnew(lst->content);
-		else
-			node = ft_lstnew(f(lst->content));
-		if (!node)
+		new_content = f(lst->content);
+		new_node = ft_lstnew(new_content);
+		if (!new_node)
 		{
-			ft_lstclear(&newlst, del);
+			ft_lstclear(&new_list, del);
 			return (NULL);
 		}
-		ft_lstadd_back(&newlst, node);
+		ft_lstadd_back(&new_list, new_node);
 		lst = lst->next;
 	}
-	return (newlst);
+	return (new_list);
 }

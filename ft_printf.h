@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 07:15:52 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/29 22:12:58 by anemet           ###   ########.fr       */
+/*   Updated: 2025/06/30 17:03:01 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,9 @@ int		ft_print_padding(char c, int len);
 char	*ft_utoa(unsigned int n);
 int		ft_hex_len(unsigned int n);
 void	ft_put_hex(unsigned int num, const char format);
+void	ft_strrev(char *s, int len);
+int		ft_ptr_len(uintptr_t num);
+void	ft_put_ptr(uintptr_t num);
+
 
 #endif
