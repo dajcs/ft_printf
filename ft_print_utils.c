@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:13:46 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/30 16:44:47 by anemet           ###   ########.fr       */
+/*   Updated: 2025/06/30 22:40:20 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	ft_hex_len(unsigned int n)
 	return (len);
 }
 
-// reverse string s, terminate with '\0' at len
 void	ft_strrev(char *s, int len)
 {
 	int		start;

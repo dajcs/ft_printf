@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_diu.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:35:26 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/30 16:50:53 by anemet           ###   ########.fr       */
+/*   Updated: 2025/06/30 22:39:43 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ Rule 5. The width field specifies a minimum total output width.
 // count += write(1, s, len); # print the number string itself
 // if (f.minus == 1)
 //		left alignment with '-', print (f.width - pad - len) trailing spaces
-static int	ft_out_nbr(char *s, int n, t_flags f)
+int	ft_out_nbr(char *s, int n, t_flags f)
 {
 	int	count;
 	int	len;
@@ -89,7 +89,10 @@ int	ft_print_nbr(int n, t_flags flags)
 	nb = n;
 	if (nb < 0)
 		nb = -nb;
-	s = ft_itoa(nb);
+	if (nb == 2147483648)
+		s = ft_strdup("2147483648");
+	else
+		s = ft_itoa(nb);
 	if (!s)
 		return (0);
 	count = ft_out_nbr(s, n, flags);
@@ -113,7 +116,7 @@ int	ft_print_unsigned(unsigned int n, t_flags flags)
 		representative_n = 0;
 	else
 		representative_n = 1;
-	count = ft_out_nbr(s, 1, flags);
+	count = ft_out_nbr(s, representative_n, flags);
 	free(s);
 	return (count);
 }

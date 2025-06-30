@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anemet <anemet@student.42.fr>              +#+  +:+       +#+         #
+#    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/28 17:34:01 by anemet            #+#    #+#              #
-#    Updated: 2025/06/30 16:47:04 by anemet           ###   ########.fr        #
+#    Updated: 2025/06/30 22:49:58 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = libftprintf.a
 
 # compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 # archiver command
 AR = ar rcs
@@ -44,6 +44,9 @@ INCS = ft_printf.h
 
 # default rule
 all: $(NAME)
+
+# The bonus rule -- same as 'all'
+bonus: $(NAME)
 
 # rule to build the final library
 $(NAME): $(OBJS) $(LIBFT)

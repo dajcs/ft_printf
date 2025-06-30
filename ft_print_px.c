@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_px.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:33:10 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/30 16:59:34 by anemet           ###   ########.fr       */
+/*   Updated: 2025/06/30 19:29:16 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_print_ptr(uintptr_t ptr, t_flags flags)
 {
 	int		count;
 	int		len;
-	char	s[20];
+	// char	s[20];
 
 	count = 0;
 	if (ptr == 0 && flags.dot && flags.precision == 0)

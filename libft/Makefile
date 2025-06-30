@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anemet <anemet@student.42.fr>              +#+  +:+       +#+         #
+#    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/06 11:43:39 by anemet            #+#    #+#              #
-#    Updated: 2025/06/13 15:28:21 by anemet           ###   ########.fr        #
+#    Updated: 2025/06/30 21:50:35 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME 	:= libft.a
 
 # Compiler and flags
 CC 		:= cc
-CFLAGS	:= -Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra -Werror -g
 
 # Public header
 HEADER	:= libft.h
