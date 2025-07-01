@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_diu.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:35:26 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/30 22:39:43 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/01 09:31:25 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ int	ft_print_nbr(int n, t_flags flags)
 	nb = n;
 	if (nb < 0)
 		nb = -nb;
-	if (nb == 2147483648)
-		s = ft_strdup("2147483648");
-	else
-		s = ft_itoa(nb);
+	s = ft_utoa((unsigned int)nb);
 	if (!s)
 		return (0);
 	count = ft_out_nbr(s, n, flags);

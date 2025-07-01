@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 07:15:52 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/30 22:40:01 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/01 09:31:57 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,5 @@ void	ft_put_hex(unsigned int num, const char format);
 void	ft_strrev(char *s, int len);
 int		ft_ptr_len(uintptr_t num);
 void	ft_put_ptr(uintptr_t num);
-
 
 #endif

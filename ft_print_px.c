@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_px.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:33:10 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/30 19:29:16 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/01 11:37:22 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,25 @@ int	ft_print_hex(unsigned int n, t_flags flags, char format)
 }
 
 // Simplified pointer printing logic
-// Here we just handle padding around the basic output
 // For simplicity, we'll do a basic padded version
 // len = ft_ptr_len(ptr) + 2; # +2 for "0x"
+// if ptr is NULL the precision flag is ignored
 int	ft_print_ptr(uintptr_t ptr, t_flags flags)
 {
 	int		count;
 	int		len;
-	// char	s[20];
 
 	count = 0;
-	if (ptr == 0 && flags.dot && flags.precision == 0)
-		return (ft_print_padding(' ', flags.width - 2) + write(1, "0x", 2));
 	if (ptr == 0)
-		return (ft_print_str("(nil)", flags));
+	{
+		len = 5;
+		if (flags.minus == 0)
+			count += ft_print_padding(' ', flags.width - len);
+		count += write(1, "(nil)", len);
+		if (flags.minus == 1)
+			count += ft_print_padding(' ', flags.width - len);
+		return (count);
+	}
 	len = ft_ptr_len(ptr) + 2;
 	if (flags.minus == 0)
 		count += ft_print_padding(' ', flags.width - len);
@@ -104,3 +109,44 @@ int	ft_print_ptr(uintptr_t ptr, t_flags flags)
 		count += ft_print_padding(' ', flags.width - len);
 	return (count);
 }
+
+/*
+int	ft_print_ptr_nill(t_flags flags)
+{
+	int	count;
+	int	len;
+
+	count = 0;
+	len = 5;
+	if (flags.minus == 0)
+		count += ft_print_padding(' ', flags.width - len);
+	count += write(1, "(nil)", len);
+	if (flags.minus == 1)
+		count += ft_print_padding(' ', flags.width - len);
+	return (count);
+}
+
+
+int	ft_print_ptr(uintptr_t ptr, t_flags flags)
+{
+	char	s[17];
+	int		len;
+	int		i;
+	int		count;
+	char	*hex_chars;
+
+	if (ptr == 0)
+		return ft_print_ptr_nill(flags);
+
+	hex_chars = "0123456789abcdef";
+	i = 0;
+	while (ptr > 0)
+	{
+		s[i++] = hex_chars[ptr % 16];
+		ptr /= 16;
+	}
+	len = i;
+	ft_strrev(s, len);
+	return (ft_put_ptr(s, flags, len));
+}
+ */
