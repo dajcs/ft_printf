@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:13:46 by anemet            #+#    #+#             */
-/*   Updated: 2025/07/01 08:59:28 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/02 14:55:52 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,6 @@ int	ft_ptr_len(uintptr_t num)
 	{
 		len++;
 		num = num / 16;
-	}
-	return (len);
-}
-
-int	ft_hex_len(unsigned int n)
-{
-	int	len;
-
-	if (n == 0)
-		return (1);
-	len = 0;
-	while (n != 0)
-	{
-		n /= 16;
-		len++;
 	}
 	return (len);
 }

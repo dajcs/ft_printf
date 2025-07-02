@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:33:10 by anemet            #+#    #+#             */
-/*   Updated: 2025/07/01 11:37:22 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/02 14:24:06 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,55 +17,52 @@ similar logic to integer printing, but accounting for the 0x prefix pointers
 
 #include "ft_printf.h"
 
-// pad = f.precision - len;
-//		calculate z-padding from precision
-// if (pad < 0) -> pad == 0;
-//		precision is a MINIMUM, don't truncate
-// if (f.zero && !f.minus && !f.dot)
-//		Rule #1, #2, #4: '0' flag is ignored if '-' or '.' is present
-//		pad = f.width - len; # 'pad' now becomes width-based zero padding
-// ################# Assembly stage ###############
-// if (f.minus == 0)
-//		Right-alignment, (no '-'), print padding if any
-// cont += ft_print_padding('0', pad); # print zero padding
-// count += write(1, s, len); # print the number string itself
-// if (f.minus == 1)
-//		left alignment with '-', print (f.width - pad - len) trailing spaces
-static int	ft_out_hex(char *s, t_flags f, int len)
+// calculate padding for ft_out_hex
+// pads[0] = zero_pad, pads[1] = space_pad
+static void	ft_get_hex_pads(t_flags f, int len, int p_len, int *pads)
+{
+	pads[0] = f.precision - len;
+	if (pads[0] < 0)
+		pads[0] = 0;
+	if (f.zero)
+	{
+		pads[0] = f.width - len - p_len;
+		if (pads[0] < 0)
+			pads[0] = 0;
+	}
+	pads[1] = f.width - len - pads[0] - p_len;
+	if (pads[1] < 0)
+		pads[1] = 0;
+}
+
+// handles the assembly of the final hex output
+// pads[2]: pads[0] = zero_pad; pads[1] = space_pad
+static int	ft_out_hex(char *s, t_flags f, int len, char *prefix)
 {
 	int	count;
-	int	pad;
+	int	pads[2];
+	int	prefix_len;
 
 	count = 0;
-	pad = f.precision - len;
-	if (pad < 0)
-		pad = 0;
-	if (f.zero && !f.minus && !f.dot)
-		pad = f.width - len;
+	if (f.minus || f.dot)
+		f.zero = 0;
+	prefix_len = ft_strlen(prefix);
+	ft_get_hex_pads(f, len, prefix_len, pads);
 	if (f.minus == 0)
-		count += ft_print_padding(' ', f.width - pad - len);
-	count += ft_print_padding('0', pad);
+		count += ft_print_padding(' ', pads[1]);
+	count += write(1, prefix, prefix_len);
+	count += ft_print_padding('0', pads[0]);
 	count += write(1, s, len);
 	if (f.minus == 1)
-		count += ft_print_padding(' ', f.width - pad - len);
+		count += ft_print_padding(' ', pads[1]);
 	return (count);
 }
 
-// if (flags.dot && flags.precision == 0 && n == 0)
-//		Rule #3: Special case for 'printf("%.0x", 0)'
-int	ft_print_hex(unsigned int n, t_flags flags, char format)
+// Helper: Converts unsigned int to a hex string in buffer 's'.
+static int	ft_uitohex_str(unsigned int n, char *s, char *hex_chars)
 {
-	int		i;
-	int		len;
-	char	s[12];
-	char	*hex_chars;
+	int	i;
 
-	if (format == 'x')
-		hex_chars = "0123456789abcdef";
-	else
-		hex_chars = "0123456789ABCDEF";
-	if (flags.dot && flags.precision == 0 && n == 0)
-		return (ft_print_padding(' ', flags.width));
 	i = 0;
 	if (n == 0)
 		s[i++] = '0';
@@ -74,9 +71,33 @@ int	ft_print_hex(unsigned int n, t_flags flags, char format)
 		s[i++] = hex_chars[n % 16];
 		n /= 16;
 	}
-	len = i;
-	ft_strrev(s, len);
-	return (ft_out_hex(s, flags, len));
+	ft_strrev(s, i);
+	return (i);
+}
+
+int	ft_print_hex(unsigned int n, t_flags flags, char format)
+{
+	char	s[12];
+	char	*hex_chars;
+	char	*prefix;
+	int		len;
+
+	if (flags.dot && flags.precision == 0 && n == 0)
+		return (ft_print_padding(' ', flags.width));
+	prefix = "";
+	if (flags.hash && n != 0)
+	{
+		if (format == 'x')
+			prefix = "0x";
+		else
+			prefix = "0X";
+	}
+	if (format == 'x')
+		hex_chars = "0123456789abcdef";
+	else
+		hex_chars = "0123456789ABCDEF";
+	len = ft_uitohex_str(n, s, hex_chars);
+	return (ft_out_hex(s, flags, len, prefix));
 }
 
 // Simplified pointer printing logic
@@ -85,8 +106,8 @@ int	ft_print_hex(unsigned int n, t_flags flags, char format)
 // if ptr is NULL the precision flag is ignored
 int	ft_print_ptr(uintptr_t ptr, t_flags flags)
 {
-	int		count;
-	int		len;
+	int	count;
+	int	len;
 
 	count = 0;
 	if (ptr == 0)
@@ -109,44 +130,3 @@ int	ft_print_ptr(uintptr_t ptr, t_flags flags)
 		count += ft_print_padding(' ', flags.width - len);
 	return (count);
 }
-
-/*
-int	ft_print_ptr_nill(t_flags flags)
-{
-	int	count;
-	int	len;
-
-	count = 0;
-	len = 5;
-	if (flags.minus == 0)
-		count += ft_print_padding(' ', flags.width - len);
-	count += write(1, "(nil)", len);
-	if (flags.minus == 1)
-		count += ft_print_padding(' ', flags.width - len);
-	return (count);
-}
-
-
-int	ft_print_ptr(uintptr_t ptr, t_flags flags)
-{
-	char	s[17];
-	int		len;
-	int		i;
-	int		count;
-	char	*hex_chars;
-
-	if (ptr == 0)
-		return ft_print_ptr_nill(flags);
-
-	hex_chars = "0123456789abcdef";
-	i = 0;
-	while (ptr > 0)
-	{
-		s[i++] = hex_chars[ptr % 16];
-		ptr /= 16;
-	}
-	len = i;
-	ft_strrev(s, len);
-	return (ft_put_ptr(s, flags, len));
-}
- */

@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:34:31 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/30 11:09:49 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/02 11:31:49 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,35 @@ t_flags	ft_init_flags(void)
 	flags.width = 0;
 	flags.dot = 0;
 	flags.precision = 0;
+	flags.hash = 0;
+	flags.plus = 0;
+	flags.space = 0;
 	return (flags);
 }
 
-// parses flags, width and precision from the format string in order:
-// (minus and/or zero) (width) (dot + precision)
-void	ft_parse_flags(t_flags *flags, const char *format, int *i)
+static void	ft_parse_flags(t_flags *flags, const char *format, int *i)
 {
-	while (ft_strchr("-0", format[*i]))
+	while (ft_strchr("-0#+ ", format[*i]))
 	{
 		if (format[*i] == '-')
 			flags->minus = 1;
 		if (format[*i] == '0')
 			flags->zero = 1;
+		if (format[*i] == '#')
+			flags->hash = 1;
+		if (format[*i] == '+')
+			flags->plus = 1;
+		if (format[*i] == ' ')
+			flags->space = 1;
 		(*i)++;
 	}
+}
+
+// parses flags, width and precision from the format string in order:
+// (minus | zero | hash | plus | space) (width) (dot + precision)
+void	ft_parse_flags_width_prec(t_flags *flags, const char *format, int *i)
+{
+	ft_parse_flags(flags, format, i);
 	if (ft_isdigit(format[*i]))
 	{
 		flags->width = ft_atoi(&format[*i]);

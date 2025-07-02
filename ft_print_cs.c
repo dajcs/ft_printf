@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:14:27 by anemet            #+#    #+#             */
-/*   Updated: 2025/06/30 16:58:32 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/02 14:03:32 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ int	ft_print_char(char c, t_flags flags)
 	return (count);
 }
 
+/*
+** The logic for handling NULL pointers with %s is tricky.
+** A standard printf often truncates "(null)" (e.g., "%.3s" -> "(nu".
+** The printf on our system prints an empty string if precision < 6.
+*/
+
 int	ft_print_str(char *str, t_flags flags)
 {
 	int	count;
@@ -34,7 +40,12 @@ int	ft_print_str(char *str, t_flags flags)
 
 	count = 0;
 	if (!str)
-		str = "(null)";
+	{
+		if (flags.dot && flags.precision < 6)
+			str = "";
+		else
+			str = "(null)";
+	}
 	len = ft_strlen(str);
 	if (flags.dot && flags.precision < len)
 		len = flags.precision;

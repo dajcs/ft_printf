@@ -6,77 +6,89 @@
 /*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:35:26 by anemet            #+#    #+#             */
-/*   Updated: 2025/07/01 09:31:25 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/02 14:18:33 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 ft_print_diu.c -> print int & unsigned int.
-interactions between `0`, `-`, `.`, `width`, `precision` and negative numbers
+interactions between `0`, `-`, `#`, `+`, ` `, `width`, `.`, `precision`and
+negative numbers
 */
 
 #include "ft_printf.h"
 
-/*
-Rule 1. The - (minus) flag overrides the 0 flag. If - is present, output
-		is left-aligned, and any padding is done with spaces on the right.
-Rule 2. The . (precision) flag overrides the 0 flag. If precision is specified
-		(e.g., %.5d), padding is done with leading zeros to meet
-		the precision length, but the 0 flag is ignored for width padding.
-Rule 3. Special Case %.0d and 0: If precision is 0 and the number is 0,
-		nothing is printed for the number itself.
-Rule 4. The 0 flag only applies if - and . are not present.
-		It pads the width with leading zeros instead of spaces.
-Rule 5. The width field specifies a minimum total output width.
-		If the formatted number is shorter, it's padded.
-		If it's longer, the width is ignored.
-*/
+// Helper 1: Calculate all padding and prefix lengths.
+// Returns the final length of the number string to be printed.
+// pads[0]=zero_pad, pads[1]=space_pad, pads[2]=prefix_len
+static int	ft_get_nbr_pads(char *s, int n, t_flags f, int *pads)
+{
+	int	len;
 
-// if (f.dot && f.precision == 0 && n == 0)
-//		Rule #3: Special case for 'printf("%.0d", 0)
-// pad = f.precision - len;
-//		calculate z-padding from precision
-// if (pad < 0) -> pad == 0;
-//		precision is a MINIMUM, don't truncate
-// if (n < 0) -> f.width--;
-//		account for the '-' sign in the total width
-// if (f.zero && !f.minus && !f.dot)
-//		Rule #1, #2, #4: '0' flag is ignored if '-' or '.' is present
-//		pad = f.width - len; # 'pad' now becomes width-based zero padding
-// ############# Assembly stage ####################
-// if (f.minus == 0)
-//		Right-alignment, (no '-'), print padding if any
-// if (n < 0)
-//		print '-' sign if any
-// cont += ft_print_padding('0', pad); # print zero padding
-// count += write(1, s, len); # print the number string itself
-// if (f.minus == 1)
-//		left alignment with '-', print (f.width - pad - len) trailing spaces
+	len = ft_strlen(s);
+	if (f.dot && f.precision == 0 && n == 0)
+		len = 0;
+	pads[2] = 0;
+	if (n < 0 || f.plus || f.space)
+		pads[2] = 1;
+	pads[0] = f.precision - len;
+	if (pads[0] < 0)
+		pads[0] = 0;
+	if (f.zero)
+	{
+		pads[0] = f.width - len - pads[2];
+		if (pads[0] < 0)
+			pads[0] = 0;
+	}
+	pads[1] = f.width - len - pads[0] - pads[2];
+	if (pads[1] < 0)
+		pads[1] = 0;
+	return (len);
+}
+
+// Helper 2: Print the prefix (+, -, or space) and return its length.
+static int	ft_print_prefix(int n, t_flags f)
+{
+	if (n < 0)
+		return (write(1, "-", 1));
+	if (f.plus)
+		return (write(1, "+", 1));
+	if (f.space)
+		return (write(1, " ", 1));
+	return (0);
+}
+
+/*
+** ft_out_nbr handles all padding and prefix logic for d/i/u specifiers.
+** 1. Resolve flags: '+' overrides ' ', while '-' or '.' override '0'.
+** 2. ft_get_nbr_pads(s, n, f, pads):
+**      Determines prefix length (for '-', '+', or ' ').
+**      Calculates zero-padding based on precision or the '0' flag.
+**      Calculates space-padding to meet the minimum width.
+** 3. Prints in order: space-padding, prefix, zero-padding, number, and
+**    finally trailing space-padding if left-aligned.
+** Note: This function is long for Norminette. It could be split into
+** helper functions to calculate padding or print prefixes if needed.
+*/
 int	ft_out_nbr(char *s, int n, t_flags f)
 {
 	int	count;
 	int	len;
-	int	pad;
+	int	pads[3];
 
 	count = 0;
-	len = ft_strlen(s);
-	if (f.dot && f.precision == 0 && n == 0)
-		len = 0;
-	pad = f.precision - len;
-	if (pad < 0)
-		pad = 0;
-	if (n < 0)
-		f.width--;
-	if (f.zero && !f.minus && !f.dot)
-		pad = f.width - len;
-	if (f.minus == 0)
-		count += ft_print_padding(' ', f.width - pad - len);
-	if (n < 0)
-		count += write(1, "-", 1);
-	count += ft_print_padding('0', pad);
+	if (f.plus)
+		f.space = 0;
+	if (f.minus || f.dot)
+		f.zero = 0;
+	len = ft_get_nbr_pads(s, n, f, pads);
+	if (!f.minus)
+		count += ft_print_padding(' ', pads[1]);
+	count += ft_print_prefix(n, f);
+	count += ft_print_padding('0', pads[0]);
 	count += write(1, s, len);
-	if (f.minus == 1)
-		count += ft_print_padding(' ', f.width - pad - len);
+	if (f.minus)
+		count += ft_print_padding(' ', pads[1]);
 	return (count);
 }
 
@@ -97,15 +109,15 @@ int	ft_print_nbr(int n, t_flags flags)
 	return (count);
 }
 
-// reusing `ft_out_nbr(s, n, flags)` isn't perfect because
-// a big unsigned `n` might be casted into negative number
-// => we're using `representative_n` only to distinguish if it is 0 or not.
+// For unsigned, '+' and ' ' flags are ignored.
 int	ft_print_unsigned(unsigned int n, t_flags flags)
 {
 	char	*s;
 	int		count;
 	int		representative_n;
 
+	flags.plus = 0;
+	flags.space = 0;
 	s = ft_utoa(n);
 	if (!s)
 		return (0);

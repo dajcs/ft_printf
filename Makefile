@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+         #
+#    By: anemet <anemet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/28 17:34:01 by anemet            #+#    #+#              #
-#    Updated: 2025/06/30 22:49:58 by anemet           ###   ########.fr        #
+#    Updated: 2025/07/02 15:11:25 by anemet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,4 +76,4 @@ fclean: clean
 re: fclean all
 
 # phony targets
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
