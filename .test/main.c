@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:26:28 by anemet            #+#    #+#             */
-/*   Updated: 2025/07/01 10:54:02 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/03 10:58:47 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,8 @@ void run_test(const char *format, const char *value_str)
 	else if (type == 's')
 	{
 		// special handling to test a real NULL pointer
-		// if (strcmp(value_str, "NULL") == 0)
-		// 	ret1 = printf(format, NULL);
-		// else
+		if (strcmp(value_str, "NULL") == 0)
+			value_str = NULL;
 		ret1 = printf(format, value_str);
 		printf("]\n");
 		printf("ft_printf: [");
@@ -128,11 +127,11 @@ int main(int argc, char *argv[])
 {
 	if (argc != 3)
 	{
-		printf("Usage: ./test_printf \"%%<format>\" \"<value>\"\n");
-		printf("Example: ./test_printf \"%%-10.5d\" \"-42\"\n");
-		printf("Example: ./test_printf \"%%s\" \"hello\"\n");
-		printf("Example: ./test_printf \"%%s\" \"NULL\" (to test a NULL pointer)\n");
-		printf("Example: ./test_printf \"%%#x\" \"1234\"\n");
+		printf("Usage: ./a.out \"%%<format>\" \"<value>\"\n");
+		printf("Example: ./a.out \"%%-10.5d\" \"-42\"\n");
+		printf("Example: ./a.out \"%%s\" \"hello\"\n");
+		printf("Example: ./a.out \"%%s\" \"NULL\" (to test a NULL pointer)\n");
+		printf("Example: ./a.out \"%%#x\" \"1234\"\n");
 		return (1);
 	}
 	if (argv[1][0] != '%')
@@ -150,24 +149,24 @@ compile (after make created `libftprintf.a`):
 cc main.c -L.. -lftprintf
 
 # Test a simple integer
-./test_printf "%d" "42"
+./a.out "%d" "42"
 
 # Test bonus flags
-./test_printf "%-10.5d" "-123"
+./a.out "%-10.5d" "-123"
 
 # Test a string
-./test_printf "%s" "hello world"
+./a.out "%s" "hello world"
 
 # Test a NULL string pointer
-./test_printf "%s" "NULL"
+./a.out "%s" "NULL"
 
 # Test hexadecimal with bonus flags
-./test_printf "%#012X" "98765"
+./a.out "%#012X" "98765"
 
 # Test a pointer
-./test_printf "%p" "any_value"
+./a.out "%p" "any_value"
 
 # Test a NULL pointer
-./test_printf "%p" "NULL"
+./a.out "%p" "NULL"
 
 */
